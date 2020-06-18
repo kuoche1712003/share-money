@@ -27,9 +27,10 @@ public class GetActivityDebtUseCase extends UseCase<GetActivityDebtUseCase.Input
                     Debt counterDebt = debtMap.remove(counterKey);
                     if(counterDebt != null){
                         Debt cal = debt.calculateDebt(counterDebt);
-                        String calKey = cal.getDebtor() + ":" + cal.getCreditor();
-                        if(cal != null)
+                        if(cal != null){
+                            String calKey = cal.getDebtor() + ":" + cal.getCreditor();
                             debtMap.put(calKey, cal);
+                        }
                     }else{
                         debtMap.put(key, debt);
                     }

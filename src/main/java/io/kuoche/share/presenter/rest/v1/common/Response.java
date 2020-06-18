@@ -33,6 +33,10 @@ public class Response<T> {
         return new Response(null, statusCode);
     }
 
+    public static Response fail(StatusCode statusCode, String message){
+        return new Response(null, statusCode.getCode(), message);
+    }
+
     public static Response fail(DomainException ex){
         return new Response(null, StatusCode.VIOLATE_BUSINESS_LOGIC.getCode(), ex.getMessage());
     }

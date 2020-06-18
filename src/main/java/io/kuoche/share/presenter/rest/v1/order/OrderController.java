@@ -7,6 +7,7 @@ import io.kuoche.share.presenter.rest.v1.common.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class OrderController {
     private final GetActivityOrdersUseCase getActivityOrdersUseCase;
 
     @PostMapping("")
-    public Response<OrderResponse> createOrder(@RequestBody OrderRequest request){
+    public Response<OrderResponse> createOrder(@Valid @RequestBody OrderRequest request){
         Order order = createOrderUseCase.execute(request.fromThis()).getOrder();
         return Response.ok(OrderResponse.from(order));
     }

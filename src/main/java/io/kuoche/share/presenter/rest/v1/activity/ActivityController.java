@@ -6,6 +6,8 @@ import io.kuoche.share.presenter.rest.v1.common.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/v1/activity")
 @RequiredArgsConstructor
@@ -15,7 +17,7 @@ public class ActivityController {
 
 
     @PostMapping("")
-    public Response<ActivityResponse> createActivity(@RequestBody ActivityRequest request){
+    public Response<ActivityResponse> createActivity(@Valid @RequestBody ActivityRequest request){
         CreateActivityUseCase.OutputValues response = createActivityUseCase.execute(request.fromThis());
         return Response.ok(ActivityResponse.from(response.getActivity()));
     }

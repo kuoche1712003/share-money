@@ -40,7 +40,7 @@ public class CreateOrderUseCase extends UseCase<CreateOrderUseCase.InputValues, 
         List<OrderDetail> details = new ArrayList<>();
         for(InputItem item : items){
             if(map.get(item.getOwner()) == null)
-                throw new NotInParticipatorException("%s not in participator list", item.getName());
+                throw new NotInParticipatorException("%s not in participator list", item.getOwner());
             OrderDetail detail = new OrderDetail(
                     null,
                     item.getName(),

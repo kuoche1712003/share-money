@@ -63,19 +63,23 @@ public class Order {
 
 
     private List<Debt> toDebts(){
-        Stack<MoneyAndOwner> stack = new Stack<>();
-
-        stack.addAll(
-                expenditures.stream().map(item->item.getMoney())
-                        .collect(Collectors.toList())
-        );
+        Map<String,MoneyAndOwner> map =  expenditures.stream()
+                .map(item->item.getMoney())
+                .collect(Collectors.toMap(item->item.getOwner(), item->item));
 
         List<Debt> debts = new ArrayList<>();
 
         for(OrderDetail detail : details){
             int needPay = detail.getMoney().getAmount();
             while(needPay > 0){
-                MoneyAndOwner target = stack.pop();
+
+                String key = detail.getMoney().getOwner();
+                if(map.get(key) == null)
+                    key = map.keySet().stream().findFirst().get();
+
+                MoneyAndOwner target = map.get(key);
+                map.remove(key);
+
                 int needGet = target.getAmount();
                 if(needPay > needGet){
                     needPay = needPay - needGet;
@@ -90,7 +94,7 @@ public class Order {
                 }
                 if(needGet > 0){
                     target = new MoneyAndOwner(target.getOwner(), needGet);
-                    stack.push(target);
+                    map.put(target.getOwner() ,target);
                 }
             }
         }
