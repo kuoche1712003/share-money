@@ -15,7 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class OrderDetailData {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String owner;
