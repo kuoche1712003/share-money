@@ -22,14 +22,16 @@ public class OrderResponse {
                                 item.getName(),
                                 item.getMoney().getOwner(),
                                 item.getMoney().getAmount()
-                        )).collect(Collectors.toList()),
+                        )
+                ).collect(Collectors.toList()),
                 order.getDetails().stream().map(item->
                         new OrderDetail(
                                 item.getName(),
                                 item.getMoney().getOwner(),
                                 item.getMoney().getAmount()
-                        )).collect(Collectors.toList())
-                );
+                        )
+                ).collect(Collectors.toList())
+        );
     }
 
 }

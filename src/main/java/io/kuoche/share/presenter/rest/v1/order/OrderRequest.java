@@ -29,13 +29,15 @@ public class OrderRequest {
                                 item.getName(),
                                 item.getOwner(),
                                 item.getAmount()
-                        )).collect(Collectors.toList()),
+                        )
+                ).collect(Collectors.toList()),
                 details.stream().map(item->
                         new CreateOrderUseCase.InputItem(
                                 item.getName(),
                                 item.getOwner(),
                                 item.getAmount()
-                        )).collect(Collectors.toList()),
+                        )
+                ).collect(Collectors.toList()),
                 activityId
         );
     }

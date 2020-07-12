@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class GetActivityDebtUseCase extends UseCase<GetActivityDebtUseCase.InputValues, GetActivityDebtUseCase.OutputValues>{
@@ -24,15 +25,16 @@ public class GetActivityDebtUseCase extends UseCase<GetActivityDebtUseCase.Input
                 .forEach(debt -> {
                     String key = debt.getDebtor() + ":" + debt.getCreditor();
                     String counterKey = debt.getCreditor() + ":" + debt.getDebtor();
+                    Debt targetDebt = debtMap.remove(key);
                     Debt counterDebt = debtMap.remove(counterKey);
-                    if(counterDebt != null){
-                        Debt cal = debt.calculateDebt(counterDebt);
-                        if(cal != null){
-                            String calKey = cal.getDebtor() + ":" + cal.getCreditor();
-                            debtMap.put(calKey, cal);
-                        }
-                    }else{
-                        debtMap.put(key, debt);
+                    Debt cal = debt;
+                    if(targetDebt != null)
+                        cal = new Debt(targetDebt.getDebtor(), targetDebt.getCreditor(), debt.getAmount() + targetDebt.getAmount());
+                    if(counterDebt != null)
+                        cal = cal.calculateDebt(counterDebt);
+                    if(cal != null){
+                        String calKey =  cal.getDebtor() + ":" + cal.getCreditor();
+                        debtMap.put(calKey, cal);
                     }
                 });
         return new OutputValues(new ArrayList<>(debtMap.values()));
