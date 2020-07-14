@@ -8,8 +8,8 @@ public class MoneyAndOwner {
     private final Integer amount;
 
     public MoneyAndOwner(String owner, Integer amount){
-        if(amount.intValue() < 0){
-            throw new MoneyException("money amount not negative");
+        if(amount.intValue() <= 0){
+            throw new MoneyAndOwnerException("Amount must be greater than zero");
         }
         this.owner = owner;
         this.amount = amount;

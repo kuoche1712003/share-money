@@ -1,21 +1,16 @@
 package io.kuoche.share.core.domain.core.domain;
 
 import io.kuoche.share.core.domain.MoneyAndOwner;
-import io.kuoche.share.core.domain.MoneyException;
-import org.junit.jupiter.api.Assertions;
+import io.kuoche.share.core.domain.MoneyAndOwnerException;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 public class MoneyAndOwnerTest {
-
     @Test
-    public void testConstructor(){
-        MoneyAndOwner moneyAndOwner = new MoneyAndOwner("Mary", 100);
-        Assertions.assertEquals("Mary", moneyAndOwner.getOwner());
-        Assertions.assertEquals(100, moneyAndOwner.getAmount());
-
-        Assertions.assertThrows(MoneyException.class, ()->{
-           new MoneyAndOwner("Mary", -12);
+    public void testMoneyAndOwnerException(){
+        assertThrows(MoneyAndOwnerException.class, ()->{
+           new MoneyAndOwner("Marry", 0);
         });
     }
-
 }

@@ -3,6 +3,7 @@ package io.kuoche.share.presenter.rest.v1.order;
 import io.kuoche.share.core.usercase.order.CreateOrderUseCase;
 import lombok.Value;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -12,12 +13,17 @@ import java.util.stream.Collectors;
 public class OrderRequest {
     @NotNull
     private String name;
+
     @NotNull
     @NotEmpty
+    @Valid
     private List<OrderDetail> expenditures;
+
     @NotNull
     @NotEmpty
+    @Valid
     private List<OrderDetail> details;
+
     @NotNull
     private Long activityId;
 

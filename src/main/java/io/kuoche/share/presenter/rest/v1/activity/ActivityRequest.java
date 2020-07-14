@@ -11,7 +11,6 @@ import java.util.List;
 public class ActivityRequest {
     @NotNull
     private final String name;
-
     @NotNull
     @NotEmpty
     private final List<String> participators;

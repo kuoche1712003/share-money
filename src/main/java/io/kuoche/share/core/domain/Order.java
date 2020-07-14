@@ -42,19 +42,21 @@ public class Order {
     }
 
     public List<Debt> getDebts(){
-        Map<String, Debt> debtMap = new HashMap<>();
+        Map<String, Debt> debtMap = new LinkedHashMap<>();
         toDebts().stream().filter(item->!item.getCreditor().equals(item.getDebtor())).
                 forEach(debt -> {
                     String key = debt.getDebtor() + ":" + debt.getCreditor();
                     String counterKey = debt.getCreditor() + ":" + debt.getDebtor();
+                    Debt targetDebt = debtMap.remove(key);
                     Debt counterDebt = debtMap.remove(counterKey);
-                    if(counterDebt != null){
-                        Debt cal = debt.calculateDebt(counterDebt);
-                        String calKey = cal.getDebtor() + ":" + cal.getCreditor();
-                        if(cal != null)
-                            debtMap.put(calKey, cal);
-                    }else{
-                        debtMap.put(key, debt);
+                    Debt cal = debt;
+                    if(targetDebt != null)
+                        cal = new Debt(targetDebt.getDebtor(), targetDebt.getCreditor(), debt.getAmount() + targetDebt.getAmount());
+                    if(counterDebt != null)
+                        cal = cal.calculateDebt(counterDebt);
+                    if(cal != null){
+                        String calKey =  cal.getDebtor() + ":" + cal.getCreditor();
+                        debtMap.put(calKey, cal);
                     }
                 });
         return new ArrayList<>(debtMap.values());
@@ -77,8 +79,7 @@ public class Order {
                 if(map.get(key) == null)
                     key = map.keySet().stream().findFirst().get();
 
-                MoneyAndOwner target = map.get(key);
-                map.remove(key);
+                MoneyAndOwner target = map.remove(key);
 
                 int needGet = target.getAmount();
                 if(needPay > needGet){
